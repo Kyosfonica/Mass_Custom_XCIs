@@ -1,40 +1,50 @@
-# Mass Custom XCI Creator
+# Automatic XCI Generator
 
-This program will mass create all possible single base custom XCIs from a NSZ folder that you provide. It will add all updates and dlc that it can find into the XCI. It will keep a database of what it has created, and upon future runs of the program will create any new XCIs from whatever new updates or dlc you had added to the folder. The previous XCI will be deleted assuming it is still in the output folder.
+The main purpose of the this tool is to automatically generate Custom XCI files from previously own NSZ files.
+The program will automatically check for base, updates and dlc folders and will generate an XCI file for each titleid it founds.
 
-I would like to add XCZ support in the future but for now on only XCI files will be supported.
+Once the main database is built, the tool is able to detect file changes and generate a new XCI file if needed.
 
-## NSCB already makes XCI, why did you make this?
+This program will mass create all possible XCI files based on the NSP folder provided. Create a folder with the files you really want to 
+convert to XCI if you do not want them all.
 
-You can consider this an extension of what NSCB does. It actually uses the same backbone that NSCB does to create the XCI, squirrel.py. NSCB requires constant manual intervention, you have to feed it files and delete the old XCI. This program automates that manual intervention. After initial setup you can set create.py to be run daily via task scheduler or cron, and never worry about creating them again.
+I plan to add XCZ support once it is ready.
 
-## Setup and Usage
+# I already have NSBC, why I need this?
 
-Requires python, and python in PATH.
+If you plan to mass convert NSZ files and do not want to do it by hand then this tool is for you. It will automate the boring stuff
+and you will be free to enjoy your time.
 
-Requires a keys.txt placed inside of ztools. Obtain this elsewhere.
+If you are only creating a few Custom XCI files from time to time then stay with NSCB as that tool is awesome and it does a lot of stuff this one doesn't.
 
-If you do not already use NSCB, then inside of the ztools folder there is an install dependencies bat. Run that. 
+# Setup
 
-On first run it will ask you for the location of the NSZ root folder. This folder must have a "base" "dlc" and "updates" or "updates (1)" folder. It will also ask if you would like to create an up to date database so that only new files added to the NSP folder will be created, or if you would like to create all XCIs from scratch. 
+Requires python and python in PATH.
 
-On future runs, its as simple as running create.py.
+Requires a keys.txt file placed inside the ztools folder. Obtain it elsewhere.
 
-## Linux, Mac, and python command not found
+# Usage
 
-If you use mac or linux, you can run the following command to install the squirrel dependencies rather than the included bat made by julesontheroad.
- - `pip install urllib3 unidecode tqdm bs4 tqdm requests image`
+On first run the tool will ask you for the location of the NSZ root folder.
+This folder must have a "base" "dlc" and "updates" or "updates (1)" folder.
 
-If 'pip' or 'python' as commands do not work, you must customize the program to your own usage. Maybe pip3. On line 6 of create.py, set your python command.
+It will also ask if you would like to create an up to date database so that only new files added to the NSP folder will be created,
+or if you would like to create all XCIs from scratch.
 
-## This code is by no means perfect
+I recommend the first option as this will keep track of new files or updates for you. 
 
-I am not a python expert so bugs might appear and good practices might not be followed.
+On future runs, it is as simple as running create.py or create_xci.bat.
 
-This project allows me to save a lot of time by automating a boring task and at the same time I learn some python. 
+# Linux & Mac support
 
-## Credits
+Not right now. Currently this program works on Windows 64bits only.
 
-ItsCinnabar for the first Mass XCI creator this project is forked from. https://github.com/ItsCinnabar/Mass_Custom_XCIs
+The reason is because I face a lot of issues installing the dependencies of squirrel on my own computer and I want this tool to work out of the box.
+
+# Credits
+
+ItsCinnabar for the first Mass XCI creator. This project is a fork of it. https://github.com/ItsCinnabar/Mass_Custom_XCIs
 
 julesontheroad for squirrel, and by extension everyone credited on NSCB's github. https://github.com/julesontheroad/NSC_BUILDER
+
+Without squirrel this project would not be possible.

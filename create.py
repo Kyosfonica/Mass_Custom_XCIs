@@ -50,7 +50,7 @@ def get_global_paths():
 def create_database():
     database = {}
 
-    for file in base.glob('*.nsp'):
+    for file in base.glob('*.nsz'):
         title_id = re.findall(r'\[0100[a-zA-Z0-9]{12}]', str(file))
         if len(title_id) == 0:
             print(f'Error on {file}\n'
@@ -62,12 +62,12 @@ def create_database():
         else:
             database.update({title_id[0][1:-5]: [file]})
 
-    for file in updates.glob('*.nsp'):
+    for file in updates.glob('*.nsz'):
         title_id = re.findall(r'\[0100[a-zA-Z0-9]{12}]', str(file))
         if len(title_id) == 1 and title_id[0][1:-5] in database:
             database[title_id[0][1:-5]].append(file)
 
-    for file in dlc.glob('*.nsp'):
+    for file in dlc.glob('*.nsz'):
         title_id = re.findall(r'\[0100[a-zA-Z0-9]{12}]', str(file))
         if len(title_id) == 1 and title_id[0][1:-5] in database:
             database[title_id[0][1:-5]].append(file)
@@ -127,13 +127,13 @@ def create_xci(title_id, paths):
         name += ')'
 
     root = Path.cwd()
-    squirrel = subprocess.Popen(f'{py_command} "{root / "ztools/squirrel.py"}" '
+    squirrel = subprocess.Popen(f'"{root / "ztools/squirrel.exe"}" '
                                 f'-o "{output}" '
                                 f'-dmul "file" '
                                 f'-tfile "{root / "multi.txt"}" '
                                 f'-t xci',
                                 shell=True, stdout=subprocess.PIPE).stdout.read()
-    nscb_xci = output / f'file[nscb].xci'
+    nscb_xci = output / f'file.xci'
 
     if b"Exception" in squirrel:
         nscb_xci.unlink()

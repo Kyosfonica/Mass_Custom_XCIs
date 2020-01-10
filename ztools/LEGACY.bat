@@ -2,7 +2,7 @@
 :TOP_INIT
 CD /d "%prog_dir%"
 set "bat_name=%~n0"
-Title NSC_Builder v0.83. -- Profile: %ofile_name% -- by JulesOnTheRoad
+Title NSC_Builder v0.97 -- Profile: %ofile_name% -- by JulesOnTheRoad
 
 ::Check if user is dragging a folder or a file
 if "%~1"=="" goto manual
@@ -299,7 +299,7 @@ if /i "%bs%"=="4" goto UPDMODE
 if /i "%bs%"=="5" goto INFMODE
 if /i "%bs%"=="6" goto DBMODE
 if /i "%bs%"=="0" goto OPT_CONFIG
-if /i "%bs%"=="N" goto exit /B
+if /i "%bs%"=="N" exit /B
 goto manual_Reentry
 
 REM //////////////////////////////////////////////////
@@ -549,7 +549,10 @@ echo Input "4" to change top keygeneration to 4 (FW 4.0.0-4.1.0)
 echo Input "5" to change top keygeneration to 5 (FW 5.0.0-5.1.0)
 echo Input "6" to change top keygeneration to 6 (FW 6.0.0-6.1.0)
 echo Input "7" to change top keygeneration to 7 (FW 6.2.0)
-echo Input "8" to change top keygeneration to 8 (FW 7.0.0-7.0.1)
+echo Input "8" to change top keygeneration to 8 (FW 7.0.0-8.0.1)
+echo Input "9" to change top keygeneration to 9 (FW 8.1.0)
+echo Input "10" to change top keygeneration to 10 (FW 9.0.0-9.01)
+echo Input "11" to change top keygeneration to 11 (FW 9.1.0)
 echo.
 ECHO ******************************************
 echo Or Input "b" to return to the list options
@@ -578,6 +581,12 @@ if /i "%bs%"=="7" set "vkey=-kp 7"
 if /i "%bs%"=="7" set "capRSV=--RSVcap 404750336"
 if /i "%bs%"=="8" set "vkey=-kp 8"
 if /i "%bs%"=="8" set "capRSV=--RSVcap 469762048"
+if /i "%bs%"=="9" set "vkey=-kp 9"
+if /i "%bs%"=="9" set "capRSV=--RSVcap 537919488"
+if /i "%bs%"=="10" set "vkey=-kp 10"
+if /i "%bs%"=="10" set "capRSV=--RSVcap 603979776"
+if /i "%bs%"=="11" set "vkey=-kp 11"
+if /i "%bs%"=="11" set "capRSV=--RSVcap 605028352"
 if /i "%vkey%"=="none" echo WRONG CHOICE
 if /i "%vkey%"=="none" goto s_KeyChange_wrongchoice
 
@@ -593,8 +602,7 @@ set "ziptarget=%%f"
 if "%vrepack%" EQU "zip" ( set "zip_restore=true" )
 if "%%~nxf"=="%%~nf.nsp" call :nsp_manual
 if "%%~nxf"=="%%~nf.xci" call :xci_manual
-more +1 "list.txt">"list.txt.new"
-move /y "list.txt.new" "list.txt" >nul
+%pycommand% "%nut%" --strip_lines "%prog_dir%list.txt"
 call :contador_NF
 )
 ECHO ---------------------------------------------------
@@ -957,7 +965,10 @@ echo Input "4" to change top keygeneration to 4 (FW 4.0.0-4.1.0)
 echo Input "5" to change top keygeneration to 5 (FW 5.0.0-5.1.0)
 echo Input "6" to change top keygeneration to 6 (FW 6.0.0-6.1.0)
 echo Input "7" to change top keygeneration to 7 (FW 6.2.0)
-echo Input "8" to change top keygeneration to 8 (FW 7.0.0-7.0.1)
+echo Input "8" to change top keygeneration to 8 (FW 7.0.0-8.0.1)
+echo Input "9" to change top keygeneration to 9 (FW 8.1.0)
+echo Input "10" to change top keygeneration to 10 (FW 9.0.0-9.01)
+echo Input "11" to change top keygeneration to 11 (FW 9.1.0)
 echo.
 ECHO *****************************************
 echo Or Input "b" to return to the option list
@@ -986,6 +997,12 @@ if /i "%bs%"=="7" set "vkey=-kp 7"
 if /i "%bs%"=="7" set "capRSV=--RSVcap 404750336"
 if /i "%bs%"=="8" set "vkey=-kp 8"
 if /i "%bs%"=="8" set "capRSV=--RSVcap 469762048"
+if /i "%bs%"=="9" set "vkey=-kp 9"
+if /i "%bs%"=="9" set "capRSV=--RSVcap 537919488"
+if /i "%bs%"=="10" set "vkey=-kp 10"
+if /i "%bs%"=="10" set "capRSV=--RSVcap 603979776"
+if /i "%bs%"=="11" set "vkey=-kp 11"
+if /i "%bs%"=="11" set "capRSV=--RSVcap 605028352"
 if /i "%vkey%"=="none" echo WRONG CHOICE
 if /i "%vkey%"=="none" goto m_KeyChange_wrongchoice
 
@@ -1008,8 +1025,7 @@ set "filename=%%~nxf"
 set "orinput=%%f"
 if "%%~nxf"=="%%~nf.nsp" call :multi_nsp_manual
 if "%%~nxf"=="%%~nf.xci" call :multi_xci_manual
-more +1 "mlist.txt">"mlist.txt.new"
-move /y "mlist.txt.new" "mlist.txt" >nul
+%pycommand% "%nut%" --strip_lines "%prog_dir%mlist.txt"
 call :multi_contador_NF
 )
 set "filename=%finalname%"
@@ -1377,8 +1393,7 @@ set "end_folder=%%~nf"
 set "orinput=%%f"
 if "%%~nxf"=="%%~nf.nsp" call :split_content
 if "%%~nxf"=="%%~nf.xci" call :split_content
-more +1 "splist.txt">"splist.txt.new"
-move /y "splist.txt.new" "splist.txt" >NUL 2>&1
+%pycommand% "%nut%" --strip_lines "%prog_dir%splist.txt"
 setlocal enabledelayedexpansion
 if exist "%fold_output%\!end_folder!" RD /S /Q "%fold_output%\!end_folder!" >NUL 2>&1
 MD "%fold_output%\!end_folder!" >NUL 2>&1
@@ -1441,8 +1456,7 @@ if "!sp_repack!" EQU "xci" ( call "%xci_lib%" "sp_repack" "%w_folder%" "!tfolder
 if "!sp_repack!" EQU "both" ( call "%nsp_lib%" "sp_convert" "%w_folder%" "!tfolder!" "!fname!" )
 if "!sp_repack!" EQU "both" ( call "%xci_lib%" "sp_repack" "%w_folder%" "!tfolder!" "!fname!" )
 endlocal
-more +1 "%w_folder%\dirlist.txt">"%w_folder%\dirlist.txt.new"
-move /y "%w_folder%\dirlist.txt.new" "%w_folder%\dirlist.txt" >nul
+%pycommand% "%nut%" --strip_lines "%prog_dir%dirlist.txt"
 )
 del "%w_folder%\dirlist.txt" >NUL 2>&1
 
@@ -1556,6 +1570,8 @@ echo ..................................
 :upd_ADD_UPD_FILES
 ECHO.
 ECHO *******************************************************************
+echo Input "1" to add folder to list via selector
+echo Input "2" to add file to list via selector
 ECHO PLEASE ADD THE FILES YOU WANT TO USE TO UPDATE THE BASE CONTENT
 ECHO *******************************************************************
 ECHO.
@@ -1565,6 +1581,9 @@ ECHO.
 set /p eval=<"%uinput%"
 set eval=%eval:"=%
 if /i "%eval%"=="0" goto manual_Reentry
+if /i "%eval%"=="1" ( %pycommand% "%nut%" -lib_call listmanager selector2list -xarg "%prog_dir%UPDlist.txt" mode=folder ext="nsp xci" ) 2>&1>NUL
+if /i "%eval%"=="2" ( %pycommand% "%nut%" -lib_call listmanager selector2list -xarg "%prog_dir%UPDlist.txt" mode=file ext="nsp xci" )  2>&1>NUL
+
 goto upd_checkagain
 
 echo.
@@ -1575,7 +1594,9 @@ echo ......................................................................
 echo "DRAG ANOTHER FILE OR FOLDER AND PRESS ENTER TO ADD ITEMS TO THE LIST"
 echo.
 echo Input "1" to start processing
-echo Input "2" to change basecontent
+echo Input "2" to add another folder to list via selector
+echo Input "3" to add another file to list via selector
+echo Input "4" to change basecontent
 echo Input "i" to see list of files to process
 echo Input "b" to see the current base content
 echo Input "r" to remove some files (counting from bottom)
@@ -1595,7 +1616,9 @@ endlocal
 
 if /i "%eval%"=="0" goto manual_Reentry
 if /i "%eval%"=="1" goto upd_starts
-if /i "%eval%"=="2" goto upd_ADD_BASE
+if /i "%eval%"=="2" ( %pycommand% "%nut%" -lib_call listmanager selector2list -xarg "%prog_dir%UPDlist.txt" mode=folder ext="nsp xci" ) 2>&1>NUL
+if /i "%eval%"=="3" ( %pycommand% "%nut%" -lib_call listmanager selector2list -xarg "%prog_dir%UPDlist.txt" mode=file ext="nsp xci" )  2>&1>NUL
+if /i "%eval%"=="4" goto upd_ADD_BASE
 if /i "%eval%"=="e" goto salida
 if /i "%eval%"=="i" goto upd_showlist
 if /i "%eval%"=="b" goto upd_showbase
@@ -1758,7 +1781,10 @@ echo Input "4" to change top keygeneration to 4 (FW 4.0.0-4.1.0)
 echo Input "5" to change top keygeneration to 5 (FW 5.0.0-5.1.0)
 echo Input "6" to change top keygeneration to 6 (FW 6.0.0-6.1.0)
 echo Input "7" to change top keygeneration to 7 (FW 6.2.0)
-echo Input "8" to change top keygeneration to 8 (FW 7.0.0-7.0.1)
+echo Input "8" to change top keygeneration to 8 (FW 7.0.0-8.0.1)
+echo Input "9" to change top keygeneration to 9 (FW 8.1.0)
+echo Input "10" to change top keygeneration to 10 (FW 9.0.0-9.01)
+echo Input "11" to change top keygeneration to 11 (FW 9.1.0)
 echo.
 ECHO ******************************************
 echo Or Input "b" to return to the list options
@@ -1787,6 +1813,12 @@ if /i "%bs%"=="7" set "vkey=-kp 7"
 if /i "%bs%"=="7" set "capRSV=--RSVcap 404750336"
 if /i "%bs%"=="8" set "vkey=-kp 8"
 if /i "%bs%"=="8" set "capRSV=--RSVcap 469762048"
+if /i "%bs%"=="9" set "vkey=-kp 9"
+if /i "%bs%"=="9" set "capRSV=--RSVcap 537919488"
+if /i "%bs%"=="10" set "vkey=-kp 10"
+if /i "%bs%"=="10" set "capRSV=--RSVcap 603979776"
+if /i "%bs%"=="11" set "vkey=-kp 11"
+if /i "%bs%"=="11" set "capRSV=--RSVcap 605028352"
 if /i "%vkey%"=="none" echo WRONG CHOICE
 if /i "%vkey%"=="none" goto m_KeyChange_wrongchoice
 
@@ -1809,8 +1841,7 @@ set "filename=%%~nxf"
 set "orinput=%%f"
 if "%%~nxf"=="%%~nf.nsp" call :UPD_nsp_manual
 if "%%~nxf"=="%%~nf.xci" call :UPD_xci_manual
-more +1 "UPDlist.txt">"UPDlist.txt.new"
-move /y "UPDlist.txt.new" "UPDlist.txt" >nul
+%pycommand% "%nut%" --strip_lines "%prog_dir%UPDlist.txt"
 call :UPD_contador_NF
 )
 set "filename=%end_folder%[multi]"
@@ -2106,8 +2137,7 @@ if "%%~nxf"=="%%~nf.nsp" call :DBnsp_manual
 if "%%~nxf"=="%%~nf.nsx" call :DBnsp_manual
 if "%%~nxf"=="%%~nf.NSP" call :DBnsp_manual
 if "%%~nxf"=="%%~nf.NSX" call :DBnsp_manual
-more +1 "DBL.txt">"DBL.txt.new"
-move /y "DBL.txt.new" "DBL.txt" >nul
+%pycommand% "%nut%" --strip_lines "%prog_dir%DBL.txt"
 call :DBcontador_NF
 )
 ECHO ---------------------------------------------------
@@ -2162,8 +2192,7 @@ set "orinput=%%f"
 set "db_file=%prog_dir%INFO\%dbformat%_DB.txt"
 set "dbdir=%prog_dir%INFO\"
 call :DBGeneration
-more +1 "DBL.txt">"DBL.txt.new"
-move /y "DBL.txt.new" "DBL.txt" >nul
+%pycommand% "%nut%" --strip_lines "%prog_dir%DBL.txt"
 call :DBcontador_NF
 )
 ECHO ---------------------------------------------------
@@ -2237,8 +2266,8 @@ ECHO ---------------------------------------------------------------------------
 ECHO =============================     BY JULESONTHEROAD     =============================
 ECHO -------------------------------------------------------------------------------------
 ECHO "                                POWERED BY SQUIRREL                                "
-ECHO "                    BASED IN THE WORK OF BLAWAR AND LUCA FRAGA                     "
-ECHO                                  VERSION 0.83 (LEGACY)
+ECHO "                    BASED ON THE WORK OF BLAWAR AND LUCA FRAGA                     "
+ECHO                                  VERSION 0.96 (LEGACY)
 ECHO -------------------------------------------------------------------------------------                   
 ECHO Program's github: https://github.com/julesontheroad/NSC_BUILDER
 ECHO Blawar's github:  https://github.com/blawar
